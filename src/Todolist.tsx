@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {FilterValuesType, TasksType} from './App';
-import SuperButton from './SuperButton';
+import {SuperButton} from "./components/SuperButton";
 
 
 // export type TaskType = {
@@ -42,7 +42,13 @@ export function Todolist(props: PropsType) {
     }
 
     const addTaskHandler = () => {
-        props.addTask(title, props.id)
+        if (title.trim()) {
+            props.addTask(title, props.id)
+            setTitle('')
+        } else {
+            setError('error')
+            setTitle('')
+        }
     }
 
     const removeTaskHandler = (tID: string) => {
@@ -54,10 +60,11 @@ export function Todolist(props: PropsType) {
     }
 
 
+
     return <div>
         <h3> {props.title}
-            <SuperButton callBack={removeTodolistHandler} name={'x'} />
-            {/*<button onClick={() => {'removeTodolist'}}>x</button>*/}
+            {/*<button onClick={removeTodolistHandler}>x</button>*/}
+            <SuperButton name={'x'} callBack={removeTodolistHandler}/>
 
         </h3>
         <div>
@@ -66,8 +73,8 @@ export function Todolist(props: PropsType) {
                    onKeyPress={onKeyPressHandler}
                    className={error ? "error" : ""}
             />
-            <SuperButton callBack={addTaskHandler} name={'+'} />
-            {/*<button onClick={() => {'addTask'}}>+</button>*/}
+            {/*<button onClick={addTaskHandler}>+</button>*/}
+            <SuperButton name={'+'} callBack={addTaskHandler}/>
             {error && <div className="error-message">{error}</div>}
         </div>
         <ul>
@@ -81,21 +88,25 @@ export function Todolist(props: PropsType) {
                     return <li key={t.taskId} className={t.isDone ? "is-done" : ""}>
                         <input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>
                         <span>{t.title}</span>
-                        {/*<button onClick={() => {'removeTask'}}>x</button>*/}
-                        <SuperButton callBack={() => removeTaskHandler(t.taskId)} name={'x'}/>
+                        {/*<button onClick={() => removeTaskHandler(t.taskId)}>x</button>*/}
+                        <SuperButton name={'x'} callBack={()=>removeTaskHandler(t.taskId)}/>
                     </li>
                 })
             }
         </ul>
         <div>
-            <SuperButton callBack={() => tsarFilterHandler('all')} name={'ALL'}/>
-            <SuperButton callBack={() => tsarFilterHandler('active')} name={'Active'}/>
-            <SuperButton callBack={() => tsarFilterHandler('completed')} name={'Completed'}/>
-            {/*<button className={props.filter === 'all' ? "active-filter" : ""} onClick={()=>{}}>All</button>*/}
-            {/*<button className={props.filter === 'active' ? "active-filter" : ""} onClick={()=>{}}>Active</button>*/}
-            {/*<button className={props.filter === 'completed' ? "active-filter" : ""} onClick={()=>{}}>Completed</button>*/}
+            {/*<button className={props.filter === 'all' ? "active-filter" : ""} onClick={() => tsarFilterHandler('all')}>All*/}
+            {/*</button>*/}
+            {/*<button className={props.filter === 'active' ? "active-filter" : ""} onClick={() => tsarFilterHandler('active')}>Active*/}
+            {/*</button>*/}
+            {/*<button className={props.filter === 'completed' ? "active-filter" : ""} onClick={() => tsarFilterHandler('completed')}>Completed*/}
+            {/*</button>*/}
+            <SuperButton style={props.filter === 'all' ? "active-filter" : ""} name={'ALL'} callBack={()=>tsarFilterHandler('all')}/>
+            <SuperButton style={props.filter === 'active' ? "active-filter" : ""} name={'Active'} callBack={()=>tsarFilterHandler('active')}/>
+            <SuperButton style={props.filter === 'completed' ? "active-filter" : ""} name={'Completed'} callBack={()=>tsarFilterHandler('completed')}/>
         </div>
         <p></p>
+        {/*{props.students.map(el => <div>{el}</div>)}*/}
         {
             props.students.map((el) => {
                 return (
