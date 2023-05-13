@@ -63,7 +63,6 @@ export function Todolist(props: PropsType) {
 
     return <div>
         <h3> {props.title}
-            {/*<button onClick={removeTodolistHandler}>x</button>*/}
             <SuperButton name={'x'} callBack={removeTodolistHandler}/>
 
         </h3>
@@ -73,7 +72,6 @@ export function Todolist(props: PropsType) {
                    onKeyPress={onKeyPressHandler}
                    className={error ? "error" : ""}
             />
-            {/*<button onClick={addTaskHandler}>+</button>*/}
             <SuperButton name={'+'} callBack={addTaskHandler}/>
             {error && <div className="error-message">{error}</div>}
         </div>
@@ -88,19 +86,12 @@ export function Todolist(props: PropsType) {
                     return <li key={t.taskId} className={t.isDone ? "is-done" : ""}>
                         <input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>
                         <span>{t.title}</span>
-                        {/*<button onClick={() => removeTaskHandler(t.taskId)}>x</button>*/}
                         <SuperButton name={'x'} callBack={()=>removeTaskHandler(t.taskId)}/>
                     </li>
                 })
             }
         </ul>
         <div>
-            {/*<button className={props.filter === 'all' ? "active-filter" : ""} onClick={() => tsarFilterHandler('all')}>All*/}
-            {/*</button>*/}
-            {/*<button className={props.filter === 'active' ? "active-filter" : ""} onClick={() => tsarFilterHandler('active')}>Active*/}
-            {/*</button>*/}
-            {/*<button className={props.filter === 'completed' ? "active-filter" : ""} onClick={() => tsarFilterHandler('completed')}>Completed*/}
-            {/*</button>*/}
             <SuperButton style={props.filter === 'all' ? "active-filter" : ""} name={'ALL'} callBack={()=>tsarFilterHandler('all')}/>
             <SuperButton style={props.filter === 'active' ? "active-filter" : ""} name={'Active'} callBack={()=>tsarFilterHandler('active')}/>
             <SuperButton style={props.filter === 'completed' ? "active-filter" : ""} name={'Completed'} callBack={()=>tsarFilterHandler('completed')}/>
